@@ -96,7 +96,7 @@ public:
                 currNode = currNode->next;
                 i++;
                 if (i == size) {
-                    cout<<"Element not found!"<<endl;
+                    cout<<"Element "<<data<<" not found!"<<endl;
                     return;
                 }
             }
@@ -105,6 +105,28 @@ public:
             currNode->next = tempNode;
         }
         size--;
+    }
+    void deleteNodeByIndex(int index) {
+        if (index >= size || isEmpty()) {
+            cout<<"Error, index out of bounds!"<<endl;
+            return;
+        }
+        else if(index == 0) {
+            head = head->next;
+        }
+        else {
+            Node<T>* currNode = head;
+            int i=1;
+            while (i != index) {
+                currNode = currNode->next;
+                i++;
+            }
+            Node<T>* tempNode = currNode->next->next;
+            cout<<"Deleted element "<<currNode->next->data<<" at index "<<index<<endl;
+            currNode->next = NULL;
+            currNode->next = tempNode;
+            size--;
+        }
     }
     int searchNode(T data) {
         Node<T>* tempNode = head;
@@ -210,7 +232,8 @@ int main()
     myList->insertNode(100, 2);
     cout<<"List 1: ";myList->printList();
     cout<<endl<<endl<<endl;
-    myList->deleteNode(15);
+    cout<<"List 1: ";myList->printList();
+    myList->deleteNodeByIndex(3);
     cout<<"List 1: ";myList->printList();
     myList->deleteNode(5);
     cout<<"List 1: ";myList->printList();
@@ -218,6 +241,7 @@ int main()
     cout<<"List 1: ";myList->printList();
     myList->deleteNode(100);
     cout<<"List 1: ";myList->printList();
+    myList->deleteNode(1000);
     cout<<endl<<endl<<endl;
     scndList->insertNode(3);
     scndList->insertNode(19);
