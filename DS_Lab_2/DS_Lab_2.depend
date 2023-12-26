@@ -1,0 +1,33 @@
+# depslib dependency file v1.0
+1703506681 source:d:\codeblocks projects\ds_lab_2\mergesort.cpp
+	<iostream>
+	"mySorts.h"
+
+1703506737 d:\codeblocks projects\ds_lab_2\mysorts.h
+
+1703506678 source:d:\codeblocks projects\ds_lab_2\quicksort.cpp
+	<iostream>
+	"mySorts.h"
+
+1703506690 source:d:\codeblocks projects\ds_lab_2\binarysearch.cpp
+	<iostream>
+	"mySearches.h"
+
+1703513267 d:\codeblocks projects\ds_lab_2\mysearches.h
+	"Employee.h"
+
+1703513282 source:d:\codeblocks projects\ds_lab_2\main.cpp
+	<bits/stdc++.h>
+	"mySorts.h"
+	"mySearches.h"
+
+1703511279 d:\codeblocks projects\ds_lab_2\employee.h
+
+1703508180 source:d:\codeblocks projects\ds_lab_2\sentinelsearch.cpp
+	<iostream>
+	"mySearches.h"
+
+1703511585 source:d:\codeblocks projects\ds_lab_2\linearsearches.cpp
+	<iostream>
+	"mySearches.h"
+
