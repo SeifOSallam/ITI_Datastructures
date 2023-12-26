@@ -5,16 +5,13 @@ using namespace std;
 template <class T>
 struct Node {
     Node* next;
-    Node* prev;
     T data;
     Node(){
         next=NULL;
-        prev=NULL;
     }
     Node(T data) {
         this->data = data;
         next=NULL;
-        prev=NULL;
     }
 };
 
@@ -50,27 +47,26 @@ public:
         if (head == NULL) {
             head = newNode;
             tail = head;
-            size++;
-            return;
         }
         else {
-            Node<T>* currNode = head;
-            while (currNode->next != NULL) {
-                currNode = currNode->next;
-            }
-            currNode->next = newNode;
-            tail = currNode->next;
-            size++;
+            tail->next = newNode;
+            tail = tail->next;
         }
+        size++;
     }
     void insertNode(T data, int index) {
-        if (index > size) {
+        if (index > size || index < 0) {
             cout<<"Error, index out of bounds!"<<endl;
             return;
         }
         else if(index == size){
             tail->next = new Node<T>(data);
             tail = tail->next;
+        }
+        else if (index == 0) {
+            Node<T>* newNode = new Node<T>(data);
+            newNode->next = head;
+            head = newNode;
         }
         else {
             Node<T>* currNode = head;
@@ -101,18 +97,20 @@ public:
                 }
             }
             Node<T>* tempNode = currNode->next->next;
-            currNode->next = NULL;
+            delete currNode->next;
             currNode->next = tempNode;
         }
         size--;
     }
     void deleteNodeByIndex(int index) {
-        if (index >= size || isEmpty()) {
+        if (index >= size || isEmpty() || index < 0) {
             cout<<"Error, index out of bounds!"<<endl;
             return;
         }
         else if(index == 0) {
+            Node<T>* tempNode = head;
             head = head->next;
+            delete tempNode;
         }
         else {
             Node<T>* currNode = head;
@@ -123,7 +121,7 @@ public:
             }
             Node<T>* tempNode = currNode->next->next;
             cout<<"Deleted element "<<currNode->next->data<<" at index "<<index<<endl;
-            currNode->next = NULL;
+            delete currNode->next;
             currNode->next = tempNode;
             size--;
         }
@@ -181,10 +179,16 @@ public:
         cout<<endl;
     }
     void clearList() {
-        delete head;
+        Node<T>* currNode = head;
+        while (currNode != NULL) {
+            Node<T>* tempNode = currNode->next;
+            cout<<"DELETING "<<currNode->data<<endl;
+            delete currNode;
+            currNode = tempNode;
+        }
+        head = NULL;
     }
 };
-
 template <class T>
 LinkedList<T> sortList(LinkedList<T>* myList) {
     LinkedList<T>* sortedList = new LinkedList<T>(*myList);
@@ -214,6 +218,41 @@ LinkedList<T> sortList(LinkedList<T>* myList) {
     }
     return *sortedList;
 }
+
+
+template <class T>
+LinkedList<T> sortListTwo(LinkedList<T>* myList) {
+    LinkedList<T>* sortedList = new LinkedList<T>(*myList);
+    for (int i = 0; i < sortedList->size - 1; i++) {
+        for (int j = 0; j < sortedList->size - i - 1; j++) {
+            if (sortedList->getNodeAtIndex(j)->data > sortedList->getNodeAtIndex(j+1)->data) {
+                T temp = sortedList->getNodeAtIndex(j)->data;
+                sortedList->getNodeAtIndex(j)->data = sortedList->getNodeAtIndex(j+1)->data;
+                sortedList->getNodeAtIndex(j+1)->data = temp;
+            }
+        }
+    }
+    return *sortedList;
+}
+
+
+template <class T>
+LinkedList<T> invertListLinear(LinkedList<T>* myList) {
+    LinkedList<T>* invertedList = new LinkedList<T>(*myList);
+    Node<T>* currNode = invertedList->head;
+    invertedList->tail = invertedList->head;
+    Node<T>* prevNode = NULL;
+    while (currNode != NULL) {
+        Node<T>* tempNode = currNode->next;
+        currNode->next = prevNode;
+        prevNode = currNode;
+        currNode = tempNode;
+    }
+    invertedList->head = prevNode;
+
+    return *invertedList;
+}
+
 
 int main()
 {
@@ -248,5 +287,16 @@ int main()
     scndList->insertNode(16);
     scndList->insertNode(8);
     cout<<"BEFORE SORT: ";scndList->printList();
-    cout<<"AFTER SORT: ";sortList(scndList).printList();
+    cout<<"AFTER SORT FIRST: ";sortList(scndList).printList();
+    cout<<"AFTER SORT SECOND: ";sortListTwo(scndList).printList();
+    cout<<endl<<endl<<endl;
+    scndList->clearList();
+    cout<<"List 2: ";scndList->printList();
+    cout<<endl<<endl<<endl;
+    scndList->insertNode(10, 0);
+    scndList->insertNode(20, 0);
+    scndList->insertNode(30, 0);
+    cout<<"List 2: ";scndList->printList();
+    cout<<endl<<endl;
+    cout<<"AFTER INVERSION : ";invertListLinear(scndList).printList();
 }
