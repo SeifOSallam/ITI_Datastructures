@@ -79,6 +79,7 @@ public:
         if (node != NULL) {
             return 1+countNodes(node->leftNode)+countNodes(node->rightNode);
         }
+        else return 0;
     }
 
     void printTree() {
